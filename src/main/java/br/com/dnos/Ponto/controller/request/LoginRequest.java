@@ -1,4 +1,8 @@
 package br.com.dnos.Ponto.controller.request;
 
-public record LoginRequest(String email, String password) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
+public record LoginRequest(@Email(message = "Email mal formatado") String email,
+                           @NotEmpty(message = "Senha é obrigatória") String password) {
 }
