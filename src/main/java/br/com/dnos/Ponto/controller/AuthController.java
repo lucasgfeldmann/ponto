@@ -6,6 +6,7 @@ import br.com.dnos.Ponto.controller.request.UserRequest;
 import br.com.dnos.Ponto.controller.response.LoginResponse;
 import br.com.dnos.Ponto.controller.response.UserResponse;
 import br.com.dnos.Ponto.entity.User;
+import br.com.dnos.Ponto.exception.EmailUsedException;
 import br.com.dnos.Ponto.exception.UsernameOrPasswordException;
 import br.com.dnos.Ponto.mapper.UserMapper;
 import br.com.dnos.Ponto.service.TokenService;
@@ -22,12 +23,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping(path = "auth")
 @Schema(name = "auth")
 @RequiredArgsConstructor
 @Validated
-public class AuthController implements AuthControllerDocs{
+public class AuthController implements AuthControllerDocs {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
@@ -51,5 +55,8 @@ public class AuthController implements AuthControllerDocs{
         } catch (BadCredentialsException error) {
             throw new UsernameOrPasswordException("Usuario ou senha invalido.");
         }
+
     }
+
+
 }

@@ -72,6 +72,11 @@ public interface AuthControllerDocs {
                     responseCode = "400",
                     description = "Email ou senha inválidos.",
                     content = @Content(mediaType = "application/json")
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Algum conflito encontrado.",
+                    content = @Content(mediaType = "application/json")
             )
     })
     ResponseEntity<LoginResponse> login(
