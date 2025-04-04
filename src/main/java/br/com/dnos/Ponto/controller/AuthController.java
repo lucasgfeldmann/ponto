@@ -27,17 +27,18 @@ import org.springframework.web.bind.annotation.*;
 @Schema(name = "auth")
 @RequiredArgsConstructor
 @Validated
-public class AuthController {
+public class AuthController implements AuthControllerDocs{
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
-
+    @Override
     @PostMapping("register")
-    public ResponseEntity<UserResponse> regiter(@Valid @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody UserRequest userRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toUserResponse(userService.save(UserMapper.toUser(userRequest))));
     }
 
+    @Override
     @PostMapping("login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
         try {
@@ -50,10 +51,5 @@ public class AuthController {
         } catch (BadCredentialsException error) {
             throw new UsernameOrPasswordException("Usuario ou senha invalido.");
         }
-    }
-
-    @GetMapping
-    public String get() {
-        return "FOI";
     }
 }

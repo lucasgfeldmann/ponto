@@ -3,6 +3,7 @@ package br.com.dnos.Ponto.controller.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Builder
 public record UserRequest(@NotEmpty(message = "Nome é obrigatorio") String name,

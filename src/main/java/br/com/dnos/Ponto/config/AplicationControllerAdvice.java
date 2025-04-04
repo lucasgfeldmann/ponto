@@ -1,5 +1,6 @@
 package br.com.dnos.Ponto.config;
 
+import br.com.dnos.Ponto.exception.EmailUsedException;
 import br.com.dnos.Ponto.exception.UsernameOrPasswordException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -32,5 +33,15 @@ public class AplicationControllerAdvice {
         });
 
         return errors;
+    }
+
+    @ExceptionHandler(EmailUsedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public Map<String, String> handleEmailUsedException(EmailUsedException exception) {
+
+        Map<String, String> error = new HashMap<>();
+        error.put("exist-email", exception.getMessage());
+
+        return error;
     }
 }
