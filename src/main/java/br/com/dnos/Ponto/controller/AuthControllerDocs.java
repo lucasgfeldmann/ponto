@@ -18,6 +18,46 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "Authentication", description = "Rotas de autenticação")
 public interface AuthControllerDocs {
 
+    @Operation(summary = "Realiza o login do usuário e retorna o token JWT.")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Login realizado com sucesso.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginResponse.class)
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Email ou senha inválidos.",
+                    content = @Content(mediaType = "application/json")
+            )
+    })
+    ResponseEntity<LoginResponse> login(
+            @Valid
+            @RequestBody(
+                    description = "Credenciais do usuário.",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginRequest.class),
+                            examples = @ExampleObject(
+                                    name = "Login Exemplo",
+                                    summary = "Exemplo de credenciais",
+                                    value = """
+                                                {
+                                                    "email": "joao@email.com",
+                                                    "password": "123456"
+                                                }
+                                            """
+                            )
+
+                    )
+            )
+            LoginRequest request
+    );
+
     @Operation(summary = "Realiza o cadastro de usuários.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -25,7 +65,18 @@ public interface AuthControllerDocs {
                     description = "Usuário criado com sucesso.",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = UserResponse.class)
+                            schema = @Schema(implementation = UserResponse.class),
+                            examples = @ExampleObject(
+                                    name = "Exemplo de resposta",
+                                    summary = "Usuário criado",
+                                    value = """
+                                                {
+                                                    "id": 1,
+                                                    "name": "Lucas Silva",
+                                                    "email": "lucas@example.com"
+                                                }
+                                            """
+                            )
                     )
             ),
             @ApiResponse(
@@ -47,57 +98,21 @@ public interface AuthControllerDocs {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = UserRequest.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Exemplo básico",
-                                            summary = "Todos os campos obrigatórios",
-                                            description = "O nome não pode estar em branco, o email deve estar bem formatado e a senha não pode ser nula.",
-                                            value = "{\"name\": \"João Silva\", \"email\": \"joao@email.com\", \"password\": \"123456\"}"
-                                    )
-                            }
+                            examples = @ExampleObject(
+                                    name = "Exemplo básico",
+                                    summary = "Todos os campos obrigatórios",
+                                    description = "O nome não pode estar em branco, o email deve estar bem formatado e a senha não pode ser nula.",
+                                    value = """
+                                             {
+                                               "name": "João Silva",
+                                               "email": "joao@email.com",
+                                               "password": "123456"
+                                             }
+                                            """
+                            )
+
                     )
             )
             UserRequest userRequest
-    );
-
-    @Operation(summary = "Realiza o login do usuário e retorna o token JWT.")
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Login realizado com sucesso.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = LoginResponse.class)
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Email ou senha inválidos.",
-                    content = @Content(mediaType = "application/json")
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Algum conflito encontrado.",
-                    content = @Content(mediaType = "application/json")
-            )
-    })
-    ResponseEntity<LoginResponse> login(
-            @Valid
-            @RequestBody(
-                    description = "Credenciais do usuário.",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = LoginRequest.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "Login Exemplo",
-                                            summary = "Exemplo de credenciais",
-                                            value = "{\"email\": \"joao@email.com\", \"password\": \"123456\"}"
-                                    )
-                            }
-                    )
-            )
-            LoginRequest request
     );
 }
