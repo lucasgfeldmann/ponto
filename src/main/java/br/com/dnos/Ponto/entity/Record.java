@@ -1,11 +1,17 @@
 package br.com.dnos.Ponto.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "record")
+@Getter
+@Setter
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
